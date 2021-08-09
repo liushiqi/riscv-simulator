@@ -13,6 +13,6 @@ Run in msys2 shell:
 pacman -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-riscv64-unknown-elf-gcc
 ```
 
-and then add <path to msys2 install>/mingw64/bin to Path environment variable.
+and then add `path to msys2 install`/mingw64/bin to Path environment variable.
 
 and then, you can run `cargo test` at root directory to test this program under windows.
