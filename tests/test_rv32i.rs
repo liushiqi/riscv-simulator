@@ -1,6 +1,11 @@
 #![feature(concat_idents)]
 
-use std::{fs::File, path::Path, process::Command};
+use std::{
+  fs::File,
+  io::{BufRead, BufReader},
+  path::Path,
+  process::Command,
+};
 
 use riscv_simulator::{
   elf::{parse_file, ParseResult},
@@ -54,12 +59,12 @@ fn compile_source(name: &str) -> ParseResult {
   result
 }
 
-fn read_reference(name: &str) -> String {
+fn read_reference(name: &str) -> std::io::Result<Vec<String>> {
   let project_path = Path::new(env!("CARGO_MANIFEST_DIR"));
   let reference_path =
     project_path.join(format!("tests/riscv-arch-test/rv32i_m/I/references/{}.reference_output", name));
 
-  std::fs::read_to_string(reference_path).unwrap()
+  BufReader::new(File::open(reference_path).unwrap()).lines().collect()
 }
 
 macro_rules! generate_test_inst {
@@ -67,7 +72,7 @@ macro_rules! generate_test_inst {
     $(#[test]
     fn $test_name() {
       let parse_result = compile_source($name);
-      let reference = read_reference($name);
+      let reference = read_reference($name).unwrap();
       let bus = Bus::new(parse_result.ram, 0x80000000);
 
       let mut cpu = Cpu::new(parse_result.entry_point, Isa::new("rv32i").unwrap(), bus, false);

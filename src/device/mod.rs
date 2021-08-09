@@ -95,7 +95,7 @@ impl Bus {
 
   pub(crate) fn dump_ram_to_file(&self, to_file: PathBuf) -> SimulateResult<()> { self.ram.0.dump_to_file(to_file) }
 
-  pub(crate) fn dump_ram_range(&self, range: Range<usize>) -> SimulateResult<String> {
+  pub(crate) fn dump_ram_range(&self, range: Range<usize>) -> SimulateResult<Vec<String>> {
     self
       .ram
       .0

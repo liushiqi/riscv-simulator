@@ -94,12 +94,11 @@ impl Ram {
     Ok(())
   }
 
-  pub fn dump_range(&self, range: Range<usize>) -> SimulateResult<String> {
-    let mut string = String::with_capacity(range.len() * 4);
-    for line in self.data[range].chunks(4) {
-      string += &format!("{:08x}\n", u32::from_le_bytes(line.try_into()?));
-    }
-    Ok(string)
+  pub fn dump_range(&self, range: Range<usize>) -> SimulateResult<Vec<String>> {
+    self.data[range]
+      .chunks(4)
+      .map(|bytes| Ok(format!("{:08x}", u32::from_le_bytes(bytes.try_into()?))))
+      .collect()
   }
 
   pub fn dump_range_to_file(&self, range: Range<usize>, to_file: PathBuf) -> SimulateResult<()> {

@@ -128,7 +128,7 @@ impl Cpu {
   pub fn dump_ram_to_file(&self, to_file: PathBuf) -> SimulateResult<()> { self.bus.dump_ram_to_file(to_file) }
 
   #[allow(unused)]
-  pub fn dump_ram_range(&self, range: Range<usize>) -> SimulateResult<String> { self.bus.dump_ram_range(range) }
+  pub fn dump_ram_range(&self, range: Range<usize>) -> SimulateResult<Vec<String>> { self.bus.dump_ram_range(range) }
 
   pub fn dump_ram_range_to_file(&self, range: Range<usize>, to_file: PathBuf) -> SimulateResult<()> {
     self.bus.dump_ram_range_to_file(range, to_file)
