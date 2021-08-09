@@ -16,8 +16,8 @@ fn compile_source(name: &str) -> ParseResult {
   let project_path = Path::new(env!("CARGO_MANIFEST_DIR"));
   let source_path = project_path.join(format!("tests/riscv-arch-test/rv64i_m/I/src/{}.S", name));
   let target_path = project_path.join(format!("tests/target/rv64/i/{}.elf", name));
-  let objdump_path = project_path.join(format!("tests/target/rv32/i/{}.elf.objdump", name));
-  let debug_objdump_path = project_path.join(format!("tests/target/rv32/i/{}.elf.debug", name));
+  let objdump_path = project_path.join(format!("tests/target/rv64/i/{}.elf.objdump", name));
+  let debug_objdump_path = project_path.join(format!("tests/target/rv64/i/{}.elf.debug", name));
   let include_path = project_path.join("tests/riscv-arch-test/include");
   let link_script_path = project_path.join("tests/riscv-arch-test/link.ld");
 
