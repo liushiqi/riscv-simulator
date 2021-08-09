@@ -11,7 +11,15 @@ pub(crate) struct Jalr {
 
 impl Display for Jalr {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(f, "jalr        {}, {}({})", self.rd, self.imm, self.rs1)
+    if self.rd == RegIndex::zero() && self.imm == 0 && self.rs1 == RegIndex::new(1) {
+      write!(f, "ret")
+    } else if self.rd == RegIndex::zero() && self.imm == 0 {
+      write!(f, "jr          {}", self.rs1)
+    } else if self.rd == RegIndex::new(1) && self.imm == 0 {
+      write!(f, "jalr        {}", self.rs1)
+    } else {
+      write!(f, "jalr        {}, {}({})", self.rd, self.imm as i64, self.rs1)
+    }
   }
 }
 

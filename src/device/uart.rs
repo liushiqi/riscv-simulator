@@ -27,8 +27,8 @@ impl Uart {
       while let Ok(c) = rx.recv() {
         count_clone.fetch_sub(1, Ordering::SeqCst);
         print!("{}", c);
-        stdout().flush();
       }
+      stdout().flush().unwrap();
     });
     Self { tx, count }
   }

@@ -11,7 +11,11 @@ pub(crate) struct Addiw {
 
 impl Display for Addiw {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(f, "addiw       {}, {}, {} ({2:#x})", self.rd, self.rs1, self.imm as i32)
+    if self.imm == 0 {
+      write!(f, "sext.w      {}, {}", self.rd, self.rs1)
+    } else {
+      write!(f, "addiw       {}, {}, {} ({2:#x})", self.rd, self.rs1, self.imm as i32)
+    }
   }
 }
 

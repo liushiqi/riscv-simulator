@@ -11,7 +11,11 @@ pub(crate) struct Xori {
 
 impl Display for Xori {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(f, "xori        {}, {}, {} ({2:#x})", self.rd, self.rs1, self.imm as i32)
+    if self.imm == u64::MAX {
+      write!(f, "not         {}, {}", self.rd, self.rs1)
+    } else {
+      write!(f, "xori        {}, {}, {} ({2:#x})", self.rd, self.rs1, self.imm as i32)
+    }
   }
 }
 

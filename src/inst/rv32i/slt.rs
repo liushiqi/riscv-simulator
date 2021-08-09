@@ -11,7 +11,13 @@ pub(crate) struct Slt {
 
 impl Display for Slt {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(f, "slt         {}, {}, {}", self.rd, self.rs1, self.rs2)
+    if self.rs1 == RegIndex::zero() {
+      write!(f, "sgtz        {}, {}", self.rd, self.rs2)
+    } else if self.rs2 == RegIndex::zero() {
+      write!(f, "sltz        {}, {}", self.rd, self.rs1)
+    } else {
+      write!(f, "slt         {}, {}, {}", self.rd, self.rs1, self.rs2)
+    }
   }
 }
 

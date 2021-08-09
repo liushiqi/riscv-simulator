@@ -16,6 +16,8 @@ impl Display for Fence {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
     if self.imm == 0b1000_0011_0011 {
       write!(f, "fence.tso")
+    } else if self.imm == 0b1111_1111 {
+      write!(f, "fence")
     } else {
       let pred = if self.imm & 0b1000_0000 != 0 { "i" } else { "" }.to_string() +
         if self.imm & 0b0100_0000 != 0 { "o" } else { "" } +

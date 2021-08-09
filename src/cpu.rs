@@ -1,4 +1,8 @@
-use std::{ops::Range, path::PathBuf};
+use std::{
+  io::{stderr, Write},
+  ops::Range,
+  path::PathBuf,
+};
 
 use crate::{
   device::{Bus, ReqType},
@@ -10,6 +14,7 @@ use crate::{
 
 pub(crate) enum PcLength {
   Four,
+  #[allow(unused)]
   Two,
 }
 
@@ -36,18 +41,21 @@ impl Cpu {
 
   pub fn execute(&mut self) {
     loop {
+      let stderr = stderr();
       let prev_pc = self.pc;
       let instruction = self.read_addr(self.pc, ReqType::Word(0));
       if let Ok(ReqType::Word(instruction)) = instruction {
         let (inst, r#type) = decode_instruction(instruction, self);
         self.pc_len = r#type;
         if self.debug {
-          eprintln!(
-            "0x{:016x} (0x{:08x}) {}",
+          write!(
+            stderr.lock(),
+            "0x{:016x} (0x{:08x}) {}\n",
             if self.get_xlen() == XLen::Bit32 { self.pc as u32 as u64 } else { self.pc },
             instruction,
             inst
           )
+          .unwrap()
         }
         inst.exec(self);
         if self.pc == prev_pc {
@@ -116,8 +124,10 @@ impl Cpu {
   #[allow(unused)]
   pub fn get_data(&self, address: u64) -> u32 { self.bus.get_data(address) }
 
+  #[allow(unused)]
   pub fn dump_ram_to_file(&self, to_file: PathBuf) -> SimulateResult<()> { self.bus.dump_ram_to_file(to_file) }
 
+  #[allow(unused)]
   pub fn dump_ram_range(&self, range: Range<usize>) -> SimulateResult<String> { self.bus.dump_ram_range(range) }
 
   pub fn dump_ram_range_to_file(&self, range: Range<usize>, to_file: PathBuf) -> SimulateResult<()> {

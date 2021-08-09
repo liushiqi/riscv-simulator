@@ -13,6 +13,8 @@ impl Display for Addi {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
     if self.rs1.0 == 0 && self.rd.0 == 0 && self.imm == 0 {
       write!(f, "nop")
+    } else if self.imm == 0 {
+      write!(f, "mv          {}, {}", self.rd, self.rs1)
     } else {
       write!(f, "addi        {}, {}, {} ({2:#x})", self.rd, self.rs1, self.imm as i32)
     }

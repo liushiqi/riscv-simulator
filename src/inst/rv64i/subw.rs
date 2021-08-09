@@ -11,7 +11,11 @@ pub(crate) struct Subw {
 
 impl Display for Subw {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(f, "subw        {}, {}, {}", self.rd, self.rs1, self.rs2)
+    if self.rs1 == RegIndex::zero() {
+      write!(f, "negw        {}, {}", self.rd, self.rs2)
+    } else {
+      write!(f, "subw        {}, {}, {}", self.rd, self.rs1, self.rs2)
+    }
   }
 }
 

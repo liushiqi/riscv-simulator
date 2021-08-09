@@ -11,7 +11,11 @@ pub(crate) struct Sltiu {
 
 impl Display for Sltiu {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(f, "sltiu       {}, {}, {} ({2:#x})", self.rd, self.rs1, self.imm as i32)
+    if self.imm == 1 {
+      write!(f, "seqz        {}, {}", self.rd, self.rs1)
+    } else {
+      write!(f, "sltiu       {}, {}, {} ({2:#x})", self.rd, self.rs1, self.imm as i32)
+    }
   }
 }
 

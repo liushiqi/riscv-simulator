@@ -1,7 +1,13 @@
 use std::fmt::{Display, Formatter};
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct RegIndex(pub(crate) usize);
+
+impl RegIndex {
+  pub fn zero() -> Self { RegIndex(0) }
+
+  pub fn new(index: usize) -> Self { RegIndex(index) }
+}
 
 impl Display for RegIndex {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

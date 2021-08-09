@@ -11,14 +11,24 @@ pub(crate) struct Bne {
 
 impl Display for Bne {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(
-      f,
-      "bne         {}, {}, pc {} {} ({3:#x})",
-      self.rs1,
-      self.rs2,
-      if (self.imm as i64) < 0 { "-" } else { "+" },
-      (self.imm as i64).abs()
-    )
+    if self.rs2 == RegIndex::zero() {
+      write!(
+        f,
+        "bnez        {}, pc {} {} ({2:#x})",
+        self.rs1,
+        if (self.imm as i64) < 0 { "-" } else { "+" },
+        (self.imm as i64).abs()
+      )
+    } else {
+      write!(
+        f,
+        "bne         {}, {}, pc {} {} ({3:#x})",
+        self.rs1,
+        self.rs2,
+        if (self.imm as i64) < 0 { "-" } else { "+" },
+        (self.imm as i64).abs()
+      )
+    }
   }
 }
 

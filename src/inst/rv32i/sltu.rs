@@ -11,7 +11,11 @@ pub(crate) struct Sltu {
 
 impl Display for Sltu {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(f, "sltu        {}, {}, {}", self.rd, self.rs1, self.rs2)
+    if self.rs1 == RegIndex::zero() {
+      write!(f, "snez        {}, {}", self.rd, self.rs2)
+    } else {
+      write!(f, "sltu        {}, {}, {}", self.rd, self.rs1, self.rs2)
+    }
   }
 }
 

@@ -10,13 +10,29 @@ pub(crate) struct Jal {
 
 impl Display for Jal {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-    write!(
-      f,
-      "jal         {}, pc {} {} ({2:#x})",
-      self.rd,
-      if (self.imm as i64) < 0 { "-" } else { "+" },
-      (self.imm as i64).abs()
-    )
+    if self.rd == RegIndex::zero() {
+      write!(
+        f,
+        "j           pc {} {} ({1:#x})",
+        if (self.imm as i64) < 0 { "-" } else { "+" },
+        (self.imm as i64).abs()
+      )
+    } else if self.rd == RegIndex::new(1) {
+      write!(
+        f,
+        "jal         pc {} {} ({1:#x})",
+        if (self.imm as i64) < 0 { "-" } else { "+" },
+        (self.imm as i64).abs()
+      )
+    } else {
+      write!(
+        f,
+        "jal         {}, pc {} {} ({2:#x})",
+        self.rd,
+        if (self.imm as i64) < 0 { "-" } else { "+" },
+        (self.imm as i64).abs()
+      )
+    }
   }
 }
 
